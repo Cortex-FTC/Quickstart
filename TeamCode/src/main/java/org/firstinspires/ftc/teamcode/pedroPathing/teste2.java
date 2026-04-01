@@ -1,83 +1,37 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import static android.os.SystemClock.sleep;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-@Autonomous(name = "Azul frente")
-public class teste extends OpMode {
+@Disabled
+@Autonomous(name = "vermelho")
+public class teste2 extends OpMode {
 
-    // ===== PID SHOOTER =====
-    double powerL = 0.35;
-    double powerR = 0.35;
-
-    double iL = 0;
-    double iR = 0;
-
-    double lastErrL = 0;
-    double lastErrR = 0;
-
-    long lastTime;
-
-    double targetRPM = 1290;
-
-    final double kP = 0.0006;
-    final double kI = 0.0000003;
-    final double kD = 0.0002;
-
-    final double POWER_MAX = 1.0;
-    final double POWER_MIN = 0.0;
-
-    private void Ctvl2Entre(double inicio, double fim){
-        double t = pathTimer.getElapsedTimeSeconds();
-
-        if(t > inicio && t < fim){
-            ctvl2.setPower(-1);
-        } else {
-            ctvl2.setPower(0);
-        }
-    }
-
-    private void desligarCtvl2Tempo(double tempoMs){
-        if(pathTimer.getElapsedTimeSeconds() > tempoMs){
-            ctvl2.setPower(-1);
-        } else {
-            ctvl2.setPower(0);
-        }
-    }
-    private void ligarCtvl2Tempo(double tempoMs){
-        if(pathTimer.getElapsedTimeSeconds() < tempoMs){
-            ctvl2.setPower(-1);
-        }else{
-            ctvl2.setPower(0);
-        }
-    }
-
-    private void ligactvl(double tempo){
+    private void ligarCtvl2Tempo(double tempo){
         if(pathTimer.getElapsedTimeSeconds() < tempo){
-            ctvl.setPower(1);
+            ctvl2.setPower(-1);
         }else{
-            ctvl.setPower(0);
+            ctvl2.setPower(0);
         }
     }
 
+    final double RPM_X = 1475;
 
+    private DcMotor shooterR;
+    private DcMotor ctvl;
+    private DcMotor ctvl2;
 
-
-
-
-    private DcMotorEx shooterR;
-    private DcMotorEx shooterL;
-    private DcMotorEx ctvl;
-    private DcMotorEx ctvl2;
 
     private Follower follower;
     private Timer pathTimer, opModeTimer;
@@ -88,12 +42,14 @@ public class teste extends OpMode {
         ESPERA1,
         DRIVE_SHOOT1_ARTEFATO1,
         ESPERA2,
+
         DRIVE_ARTEFATO1_PEGA1,
         DRIVE_PEGA1_SHOOT2,
         ESPERA3,
         DRIVE_SHOOT2_ARTEFATO2,
         DRIVE_ARTEFATO2_PEGA2,
         ESPERA4,
+
         DRIVE_PEGA2_GATE,
         DRIVE_GATE_GATE2,
         ESPERA5,
@@ -116,21 +72,20 @@ public class teste extends OpMode {
 
     PathState pathState;
 
-    private final Pose startPose = new Pose(26.100, 129.400, Math.toRadians(142));
-    private final Pose shootpose1 = new Pose(46.544, 107.692, Math.toRadians(146));
-    private final Pose artefato1 = new Pose(46.047, 86.233, Math.toRadians(180));
-    private final Pose pega1 = new Pose(29.428, 86.284, Math.toRadians(180));
-    private final Pose shoot2 = new Pose(42.698, 91.047, Math.toRadians(128));
-    private final Pose artefato2 = new Pose(22.047, 56.823, Math.toRadians(180));
-    private final Pose pega2 = new Pose(27.144, 56.879, Math.toRadians(180));
-    private final Pose gate = new Pose(47.848, 67.638, Math.toRadians(0));
-    private final Pose gate2 = new Pose(19.690, 69.687, Math.toRadians(0));
-    private final Pose shoot3 = new Pose(53.700, 81.991, Math.toRadians(129));
-    private final Pose artefato3 = new Pose(44.294, 37.782, Math.toRadians(180));
-    private final Pose pega3 = new Pose(21.216, 37.926, Math.toRadians(180));
-    private final Pose shoot4 = new Pose(54.837, 80.372, Math.toRadians(129));
-    private final Pose gate4 = new Pose(16.628, 70.302, Math.toRadians(0));
-    private final Pose gate5 = new Pose(31.337, 67.291, Math.toRadians(145));
+    private final Pose startPose = new Pose(117.000, 130.395, Math.toRadians(37));
+    private final Pose shootpose1 = new Pose(88.535, 101.093, Math.toRadians(28));
+    private final Pose artefato1 = new Pose(98.047, 80.628, Math.toRadians(0));
+    private final Pose pega1 = new Pose(110.721, 80.372, Math.toRadians(0));
+    private final Pose shoot2 = new Pose(98.674, 102.767, Math.toRadians(40));
+    private final Pose artefato2 = new Pose(95.442, 56.721, Math.toRadians(0));
+    private final Pose pega2 = new Pose(110.977, 56.767, Math.toRadians(0));
+    private final Pose gate = new Pose(113.349, 69.140, Math.toRadians(90));
+    private final Pose gate2 = new Pose(124.953, 70.535, Math.toRadians(90));
+    private final Pose shoot3 = new Pose(103.605, 101.767, Math.toRadians(42));
+    private final Pose artefato3 = new Pose(98.953, 32.209, Math.toRadians(0));
+    private final Pose pega3 = new Pose(110.302, 32.349, Math.toRadians(0));
+    private final Pose shoot4 = new Pose(101.326, 101.605, Math.toRadians(41));
+    private final Pose gate4 = new Pose(126.930, 66.442, Math.toRadians(90));
 
     private PathChain startShoot1;
     private PathChain shoot1Artefato1;
@@ -188,7 +143,7 @@ public class teste extends OpMode {
                 .addPath(new BezierCurve(
                         pega2,gate,gate2
                 ))
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
                 .build();
 
         gate2Shoot3 = follower.pathBuilder() //8
@@ -217,46 +172,7 @@ public class teste extends OpMode {
                 .setLinearHeadingInterpolation(shoot4.getHeading(), gate4.getHeading())
                 .build();
 
-        gate4gate5 = follower.pathBuilder() //12
-                .addPath(new BezierLine(gate4,gate5))
-                .setLinearHeadingInterpolation(gate4.getHeading(), gate5.getHeading())
-                .build();
-    }
 
-    public void pidShooter(){
-
-        long now = System.currentTimeMillis();
-
-        double dt = (now - lastTime)/1000.0;
-        if(dt <= 0) dt = 0.01;
-
-        lastTime = now;
-
-        double errL = targetRPM - Math.abs(shooterL.getVelocity());
-        double errR = targetRPM - Math.abs(shooterR.getVelocity());
-
-        iL += errL * dt;
-        iR += errR * dt;
-
-        final double I_MAX = 5000;
-
-        iL = Math.max(-I_MAX, Math.min(I_MAX, iL));
-        iR = Math.max(-I_MAX, Math.min(I_MAX, iR));
-
-        double dL = (errL - lastErrL)/dt;
-        double dR = (errR - lastErrR)/dt;
-
-        lastErrL = errL;
-        lastErrR = errR;
-
-        powerL += kP*errL + kI*iL + kD*dL;
-        powerR += kP*errR + kI*iR + kD*dR;
-
-        powerL = Math.max(POWER_MIN, Math.min(POWER_MAX, powerL));
-        powerR = Math.max(POWER_MIN, Math.min(POWER_MAX, powerR));
-
-        shooterL.setPower(powerL);
-        shooterR.setPower(powerR);
     }
 
     public void statePathUpdate() {
@@ -264,20 +180,17 @@ public class teste extends OpMode {
         switch (pathState) {
 
             case DRIVE_START_SHOOT1:
+
                 follower.followPath(startShoot1, true);
                 setPathState(PathState.ESPERA1);
                 break;
 
-            case ESPERA1:
-                desligarCtvl2Tempo(2);
-                ligactvl(5);
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
-                    follower.followPath(shoot1Artefato1, true);
-                    setPathState(PathState.DRIVE_SHOOT1_ARTEFATO1);
-                }
-                break;
 
-            case ATIVASHOOT:
+
+            case ESPERA1:
+                ctvl.setPower(1);
+                ctvl2.setPower(-1);
+                ligarCtvl2Tempo(1.400);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
                     follower.followPath(shoot1Artefato1, true);
                     setPathState(PathState.DRIVE_SHOOT1_ARTEFATO1);
@@ -285,16 +198,14 @@ public class teste extends OpMode {
                 break;
 
             case DRIVE_SHOOT1_ARTEFATO1:
-                ctvl2.setPower(0);
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.200) {
-                    follower.followPath(shoot1Artefato1, true);
-                    setPathState(PathState.DRIVE_ARTEFATO1_PEGA1);
-                }
+                follower.followPath(shoot1Artefato1, true);
+                setPathState(PathState.DRIVE_ARTEFATO1_PEGA1);
                 break;
 
             case DRIVE_ARTEFATO1_PEGA1:
-                ligactvl(3);
-                Ctvl2Entre(0,0.700);
+                ctvl.setPower(1);
+                ctvl2.setPower(-1);
+                ligarCtvl2Tempo(0.4);
 
                 if (!follower.isBusy()) {
                     follower.followPath(artefato1Pega1, true);
@@ -310,6 +221,7 @@ public class teste extends OpMode {
                 break;
 
             case DRIVE_PEGA1_SHOOT2:
+                ctvl.setPower(0);
                 if (!follower.isBusy()) {
                     follower.followPath(pega1Shoot2, true);
                     setPathState(PathState.ESPERA3);
@@ -317,8 +229,6 @@ public class teste extends OpMode {
                 break;
 
             case ESPERA3:
-                ligactvl(2);
-                ligarCtvl2Tempo(1.400);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
                     follower.followPath(shoot2Artefato2, true);
                     setPathState(PathState.DRIVE_SHOOT2_ARTEFATO2);
@@ -333,8 +243,10 @@ public class teste extends OpMode {
                 break;
 
             case DRIVE_ARTEFATO2_PEGA2:
-                ligactvl(3);
-                Ctvl2Entre(0,0.700);
+                ctvl2.setPower(-1);
+                ligarCtvl2Tempo(0.4);
+                ctvl.setPower(1);
+
 
                 if (!follower.isBusy()) {
                     follower.followPath(artefato2Pega2, true);
@@ -350,6 +262,8 @@ public class teste extends OpMode {
                 break;
 
             case DRIVE_PEGA2_GATE:
+                ctvl.setPower(0);
+
                 if (!follower.isBusy()) {
                     follower.followPath(pega2Gate, true);
                     setPathState(PathState.DRIVE_GATE_GATE2);
@@ -378,7 +292,7 @@ public class teste extends OpMode {
                 break;
 
             case ESPERA6:
-                ligactvl(2);
+                ctvl2.setPower(-1);
                 ligarCtvl2Tempo(1.400);
 
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
@@ -389,15 +303,16 @@ public class teste extends OpMode {
 
 
             case DRIVE_SHOOT3_ARTEFATO3:
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.200) {
+                if (!follower.isBusy()) {
                     follower.followPath(shoot3Artefato3, true);
                     setPathState(PathState.DRIVE_ARTEFATO3_PEGA3);
                 }
                 break;
 
             case DRIVE_ARTEFATO3_PEGA3:
-                ligactvl(3);
-                Ctvl2Entre(0,0.700);
+                ctvl2.setPower(-1);
+                ligarCtvl2Tempo(0.4);
+                ctvl.setPower(1);
 
 
                 if (!follower.isBusy()) {
@@ -414,6 +329,8 @@ public class teste extends OpMode {
                 break;
 
             case DRIVE_PEGA3_SHOOT4:
+                ctvl.setPower(0);
+
                 if (!follower.isBusy()) {
                     follower.followPath(pega3shoot4, true);
                     setPathState(PathState.ESPERA8);
@@ -421,7 +338,7 @@ public class teste extends OpMode {
                 break;
 
             case ESPERA8:
-                ligactvl(2);
+                ctvl2.setPower(-1);
                 ligarCtvl2Tempo(1.400);
 
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
@@ -431,6 +348,7 @@ public class teste extends OpMode {
                 break;
 
             case DRIVE_SHOOT4_GATE4:
+
                 if (!follower.isBusy()) {
                     follower.followPath(shoot4gate4, true);
                     setPathState(PathState.ESPERA9);
@@ -438,6 +356,8 @@ public class teste extends OpMode {
                 break;
 
             case ESPERA9:
+                ctvl2.setPower(-1);
+                ligarCtvl2Tempo(1.400);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
                     follower.followPath(gate4gate5, true);
                     setPathState(PathState.DRIVE_GATE4_GATE5);
@@ -463,20 +383,15 @@ public class teste extends OpMode {
 
     @Override
     public void init() {
-        shooterL = hardwareMap.get(DcMotorEx.class, "shooterL");
-        shooterR = hardwareMap.get(DcMotorEx.class, "shooterR");
-        ctvl = hardwareMap.get(DcMotorEx.class,"CTVL");
-        ctvl2 = hardwareMap.get(DcMotorEx.class,"CTVL2");
+
+        shooterR = hardwareMap.get(DcMotor.class, "shooterR");
+        ctvl = hardwareMap.get(DcMotor.class, "CTVL");
+        ctvl2 = hardwareMap.get(DcMotor.class, "CTVL2");
 
         ctvl.setDirection(DcMotorSimple.Direction.FORWARD);
         ctvl2.setDirection(DcMotorSimple.Direction.REVERSE);
-        shooterL.setDirection(DcMotorSimple.Direction.REVERSE);
-        shooterR.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        ctvl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        ctvl2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        pathState = PathState.DRIVE_START_SHOOT1;
+        shooterR.setPower(RPM_X);
 
         pathTimer = new Timer();
         opModeTimer = new Timer();
@@ -497,15 +412,10 @@ public class teste extends OpMode {
 
     @Override
     public void loop() {
+
         follower.update();
-        pidShooter();
-        ctvl.setPower(1.0);
         statePathUpdate();
-        telemetry.addData("Target RPM",targetRPM);
-        telemetry.addData("RPM L",shooterL.getVelocity());
-        telemetry.addData("RPM R",shooterR.getVelocity());
-        telemetry.addData("Power L",powerL);
-        telemetry.addData("Power R",powerR);
+
         telemetry.addData("Path State", pathState);
         telemetry.addData("X", follower.getPose().getX());
         telemetry.addData("Y", follower.getPose().getY());
