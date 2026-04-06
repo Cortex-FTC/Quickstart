@@ -47,7 +47,7 @@ public class rocket extends OpMode {
         // O sinal é invertido (-) porque o controle vem invertido por padrão
         double frente = -gamepad1.left_stick_y;
 
-        // Stick direito X → giro (virar o robô
+        // Stick direito X → giro (virar o rob
         double giro = gamepad1.right_stick_x;
 
         // 🔹 Cálculo do movimento (Arcade Drive)
