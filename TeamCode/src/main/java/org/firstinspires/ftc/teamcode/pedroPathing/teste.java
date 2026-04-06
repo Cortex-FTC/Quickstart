@@ -17,6 +17,7 @@ public class teste extends OpMode {
 
     // ===== PID SHOOTER ==
     double powerL = 0.35;
+
     double powerR = 0.35;
 
     double iL = 0;
