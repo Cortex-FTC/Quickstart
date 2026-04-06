@@ -51,7 +51,7 @@ public class rocket extends OpMode {
         double giro = gamepad1.right_stick_x;
 
         // 🔹 Cálculo do movimento (Arcade Drive)
-        // Soma = lado esquerd
+        // Soma = lado esquer
         // Subtração = lado direito
         double esquerda = frente + giro;
         double direita = frente - giro;
