@@ -126,7 +126,7 @@ public class teste extends OpMode {
     private final Pose shoot4 = new Pose(54.837, 80.372, Math.toRadians(129));
     private final Pose gate4 = new Pose(16.628, 70.302, Math.toRadians(0));
     private final Pose gate5 = new Pose(31.337, 67.291, Math.toRadians(145));
-
+//
     private PathChain startShoot1;
     private PathChain shoot1Artefato1;
     private PathChain artefato1Pega1;
