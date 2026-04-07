@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @Autonomous(name = "Azul frente")
 public class teste extends OpMode {
 
-//kl
+
     double powerL = 0.35;
 
     double powerR = 0.35;
@@ -37,7 +37,7 @@ public class teste extends OpMode {
     final double POWER_MAX = 1.0;
     final double POWER_MIN = 0.0;
 
-    private void Ctvl2Entre(double inicio, double fim){
+    private void ctvl2meio(double inicio, double fim){
         double t = pathTimer.getElapsedTimeSeconds();
 
         if(t > inicio && t < fim){
@@ -69,12 +69,6 @@ public class teste extends OpMode {
             ctvl.setPower(0);
         }
     }
-
-
-
-
-
-
     private DcMotorEx shooterR;
     private DcMotorEx shooterL;
     private DcMotorEx ctvl;
@@ -196,7 +190,6 @@ public class teste extends OpMode {
                 .addPath(new BezierLine(gate2, shoot3))
                 .setLinearHeadingInterpolation(gate2.getHeading(), shoot3.getHeading())
                 .build();
-
         shoot3Artefato3 = follower.pathBuilder() //9
                 .addPath(new BezierLine(shoot3, artefato3))
                 .setLinearHeadingInterpolation(shoot3.getHeading(), artefato3.getHeading())
@@ -295,7 +288,7 @@ public class teste extends OpMode {
 
             case DRIVE_ARTEFATO1_PEGA1:
                 ligactvl(3);
-                Ctvl2Entre(0,0.700);
+                ctvl2meio(0,0.700);
 
                 if (!follower.isBusy()) {
                     follower.followPath(artefato1Pega1, true);
@@ -335,7 +328,7 @@ public class teste extends OpMode {
 
             case DRIVE_ARTEFATO2_PEGA2:
                 ligactvl(3);
-                Ctvl2Entre(0,0.700);
+                ctvl2meio(0,0.700);
 
                 if (!follower.isBusy()) {
                     follower.followPath(artefato2Pega2, true);
@@ -398,7 +391,7 @@ public class teste extends OpMode {
 
             case DRIVE_ARTEFATO3_PEGA3:
                 ligactvl(3);
-                Ctvl2Entre(0,0.700);
+                ctvl2meio(0,0.700);
 
 
                 if (!follower.isBusy()) {
