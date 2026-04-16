@@ -12,7 +12,7 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-@Autonomous(name = "Azul frente")
+@Autonomous(name = "Azul frente")//sim
 public class teste extends OpMode {
 
     double powerL = 0.35;
