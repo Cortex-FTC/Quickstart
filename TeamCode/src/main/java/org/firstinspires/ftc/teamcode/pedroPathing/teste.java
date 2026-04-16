@@ -15,7 +15,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @Autonomous(name = "Azul frente")
 public class teste extends OpMode {
 
-    double powerZ = 0.35;
     double powerL = 0.35;
 
     double powerR = 0.35;
