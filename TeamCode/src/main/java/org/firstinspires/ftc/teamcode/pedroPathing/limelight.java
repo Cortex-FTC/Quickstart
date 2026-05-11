@@ -1,123 +1,83 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-import java.util.ArrayList;
 import java.util.List;
-@Disabled
-@TeleOp(name = "rathian")
-public class limelight extends OpMode {
 
-    private Limelight3A limelight;
-    TestBench bench = new TestBench();
-    private double distance;
-
-    // ---- ADIÇÃO: variáveis para calibração automática ----
-    private final List<Double> knownDistances = new ArrayList<>();
-    private final List<Double> measuredAreas = new ArrayList<>();
-    private boolean calibrating = false;
-    private double calibratedK = 179.0; // valor inicial padrão
-    // -------------------------------------------------------
+public class limelight extends LinearOpMode {
+    public Limelight3A limelight;
+    public DcMotor FL0;
 
     @Override
-    public void init() {
-        bench.init(hardwareMap);
+    public void runOpMode() throws InterruptedException {
+
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
+
+        telemetry.setMsTransmissionInterval(11);
+
         limelight.pipelineSwitch(0);
 
-        telemetry.addLine("Limelight pronta. Pressione [A] para modo de calibração.");
-        telemetry.update();
-    }
-
-    @Override
-    public void start() {
+        // Inicia a coleta de dados
         limelight.start();
-    }
 
-    @Override
-    public void loop() {
+        telemetry.addData(">", "Robot Ready. Press Play.");
+        telemetry.update();
+        waitForStart();
 
-        // ---- ADIÇÃO: controle de calibração via botão ----
-        if (gamepad1.a) {
-            calibrating = true;
-            telemetry.addLine("MODO CALIBRAÇÃO ATIVADO! Coloque o robô em distâncias conhecidas e pressione [X] para registrar.");
+
+        while (opModeIsActive()) {
+
+            LLStatus status = limelight.getStatus();
+            telemetry.addData("Name", "%s", status.getName());
+            telemetry.addData("LL", "Temp: %.1fC, CPU: %.1f%%, FPS: %d",
+                    status.getTemp(), status.getCpu(), (int) status.getFps());
+            telemetry.addData("Pipeline", "Index: %d, Type: %s",
+                    status.getPipelineIndex(), status.getPipelineType());
+
+
         }
-        if (gamepad1.b) {
-            calibrating = false;
-            telemetry.addLine("MODO CALIBRAÇÃO DESATIVADO.");
-        }
-        // ---------------------------------------------------
 
-        YawPitchRollAngles orientation = bench.getOrientation();
-        if (orientation != null)
-            limelight.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
+        LLResult result = limelight.getLatestResult();
+        if (result.isValid()) {
+            // Informações gerais
+            Pose3D botpose = result.getBotpose();
+            double captureLatency = result.getCaptureLatency();
+            double targetingLatency = result.getTargetingLatency();
+            double parseLatency = result.getParseLatency();
+            result.getPipelineIndex();
+            telemetry.addData("LL Latency", captureLatency + targetingLatency);
+            telemetry.addData("Parse Latency", parseLatency);
+            telemetry.addData("PythonOutput", java.util.Arrays.toString(result.getPythonOutput()));
 
-        LLResult llResult = limelight.getLatestResult();
+            telemetry.addData("tx", result.getTx());
+            telemetry.addData("txnc", result.getTxNC());
+            telemetry.addData("ty", result.getTy());
+            telemetry.addData("tync", result.getTyNC());
 
-        if (llResult != null && llResult.isValid()) {
-            Pose3D botpose = llResult.getBotpose_MT2();
-            double ta = llResult.getTa();
-
-            // ---- ADIÇÃO: registro de pontos de calibração ----
-            if (calibrating && gamepad1.x) {
-                double knownDistance = askDistanceFromUser(); // define manualmente abaixo
-                knownDistances.add(knownDistance);
-                measuredAreas.add(ta);
-                telemetry.addData("Registrado", "Dist=%.1f cm | ta=%.4f", knownDistance, ta);
-            }
-
-            // Atualiza K automaticamente se houver dados
-            if (knownDistances.size() >= 2) {
-                calibratedK = computeCalibrationConstant();
-            }
-            // ---------------------------------------------------
-
-
-
-            distance = getDistanceFromTage(ta);
-            telemetry.addData("Distance", distance);
-            telemetry.addData("Target X", llResult.getTx());
-            telemetry.addData("Target Area", ta);
-            telemetry.addData("Calibrated K", calibratedK);
             telemetry.addData("Botpose", botpose.toString());
+
+            List<LLResultTypes.ColorResult> colorResults = result.getColorResults();
+            for (LLResultTypes.ColorResult cr : colorResults) {
+                telemetry.addData("Color", "X: %.2f, Y: %.2f",
+                        cr.getTargetXDegrees(), cr.getTargetYDegrees());
+            }
+
+        } else {
+            telemetry.addData("Limelight", "No data available");
         }
 
         telemetry.update();
-    }
 
-    // ---- ADIÇÃO: cálculo automático da constante K ----
-    private double computeCalibrationConstant() {
-        double sum = 0;
-        for (int i = 0; i < knownDistances.size(); i++) {
-            double d = knownDistances.get(i);
-            double ta = measuredAreas.get(i);
-            if (ta > 0) sum += d * Math.sqrt(ta);
         }
-        return sum / knownDistances.size();
     }
 
-    // ---- ADIÇÃO: valor manual de calibração (coloque sua medição real) ----
-    private double askDistanceFromUser() {
-        // ⚠️ Aqui você pode colocar manualmente o valor da distância medida (em cm)
-        // quando apertar [X] durante o modo calibração.
-        // Exemplo: retorne 50 para 50 cm, depois mude pra 100, etc.
-        return 100; // <<< ALTERE AQUI quando calibrar
-    }
-    // -----------------------------------------------------------------------
 
 
-
-    public double getDistanceFromTage(double ta) {
-        if (ta <= 0) return 0;
-        double distance = calibratedK / Math.sqrt(ta);
-        return distance;
-    }
-}
