@@ -2,11 +2,13 @@
 package org.firstinspires.ftc.teamcode; // Define o pacote do código
 
 // Importações necessárias para o FTC funcionar
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 // Define que esse código é um TeleOp (controle manual)
+@Disabled
 @TeleOp(name = "ROCKET", group = "FTC")
 public class rocket extends OpMode {
 

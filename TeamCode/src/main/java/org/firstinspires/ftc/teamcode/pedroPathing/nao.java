@@ -14,23 +14,22 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Disabled//
-@Autonomous(name = "Azul frente")//si
-public class teste extends OpMode {
+@Autonomous(name = "Azul frente1")//si
+public class nao extends OpMode {
 
-    double powerL = 0.35;
+        double powerL = 0.35;
 
-    double powerR = 0.35;
+        double powerR = 0.35;
 
-    double iL = 0;
-    double iR = 0;
+        double iL = 0;
+        double iR = 0;
 
-    double lastErrL = 0;
-    double lastErrR = 0;
+        double lastErrL = 0;
+        double lastErrR = 0;
 
-    long lastTime;
+        long lastTime;
 
-    double targetRPM = 1320;
+    double targetRPM = 1400;
 
     final double kP = 0.0006;
     final double kI = 0.0000003;
@@ -120,8 +119,7 @@ public class teste extends OpMode {
     private final Pose shoot2 = new Pose(42.962, 93.429, Math.toRadians(128));
     private final Pose artefato2 = new Pose(45.111, 56.831, Math.toRadians(180));
     private final Pose pega2 = new Pose(22.379, 57.143, Math.toRadians(180));
-    private final Pose gate = new Pose(38.584, 72.933, Math.toRadians(0));
-    private final Pose gate2 = new Pose(16.779, 70.746, Math.toRadians(0));
+
     private final Pose shoot3 = new Pose(53.700, 81.991, Math.toRadians(129));
     private final Pose artefato3 = new Pose(44.294, 37.782, Math.toRadians(180));
     private final Pose pega3 = new Pose(24.306, 38.136, Math.toRadians(180));
@@ -177,21 +175,11 @@ public class teste extends OpMode {
                 .build();
 
         pega2Gate = follower.pathBuilder() //6
-                .addPath(new BezierLine(pega2, gate))
-                .setLinearHeadingInterpolation(pega2.getHeading(), gate.getHeading())
+                .addPath(new BezierLine(pega2, shoot3))
+                .setLinearHeadingInterpolation(pega2.getHeading(), shoot3.getHeading())
                 .build();
 
-        gateGate2 = follower.pathBuilder() // path7
-                .addPath(new BezierCurve(
-                        pega2,gate,gate2
-                ))
-                .setLinearHeadingInterpolation(pega2.getHeading(), gate.getHeading(), gate2.getHeading())
-                .build();
 
-        gate2Shoot3 = follower.pathBuilder() //8
-                .addPath(new BezierLine(gate2, shoot3))
-                .setLinearHeadingInterpolation(gate2.getHeading(), shoot3.getHeading())
-                .build();
         shoot3Artefato3 = follower.pathBuilder() //9
                 .addPath(new BezierLine(shoot3, artefato3))
                 .setLinearHeadingInterpolation(shoot3.getHeading(), artefato3.getHeading())
@@ -314,7 +302,7 @@ public class teste extends OpMode {
 
             case ESPERA3:
                 ligactvl(1.400);
-                ligarCtvl2Tempo(1.400);
+                ligarCtvl2Tempo(2);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
                     follower.followPath(shoot2Artefato2, true);
                     setPathState(PathState.DRIVE_SHOOT2_ARTEFATO2);
@@ -332,48 +320,22 @@ public class teste extends OpMode {
                 ligactvl(3);
                 if (!follower.isBusy()) {
                     follower.followPath(artefato2Pega2, true);
-                    setPathState(PathState.ESPERA4);
-                }
-                break;
-
-            case ESPERA4:
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.200) {
-                    follower.followPath(pega2Gate, true);
                     setPathState(PathState.DRIVE_PEGA2_GATE);
                 }
                 break;
 
+
             case DRIVE_PEGA2_GATE:
                 if (!follower.isBusy()) {
                     follower.followPath(pega2Gate, true);
-                    setPathState(PathState.DRIVE_GATE_GATE2);
-                }
-                break;
-
-            case DRIVE_GATE_GATE2:
-                if (!follower.isBusy()) {
-                    follower.followPath(gateGate2, true);
-                    setPathState(PathState.ESPERA5);
-                }
-                break;
-
-            case ESPERA5:
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1) {
-                    follower.followPath(gate2Shoot3, true);
-                    setPathState(PathState.DRIVE_GATE2_SHOOT3);
-                }
-                break;
-
-            case DRIVE_GATE2_SHOOT3:
-                if (!follower.isBusy()) {
-                    follower.followPath(gate2Shoot3, true);
                     setPathState(PathState.ESPERA6);
                 }
                 break;
 
+
             case ESPERA6:
-                ligactvl(1.400);
-                ligarCtvl2Tempo(1.400);
+                ligactvl(1.4);
+                ligarCtvl2Tempo(1.8);
 
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
                     follower.followPath(shoot3Artefato3, true);
@@ -391,7 +353,6 @@ public class teste extends OpMode {
 
             case DRIVE_ARTEFATO3_PEGA3:
                 ligactvl(3);
-
                 if (!follower.isBusy()) {
                     follower.followPath(Artefato3pega3, true);
                     setPathState(PathState.ESPERA7);
