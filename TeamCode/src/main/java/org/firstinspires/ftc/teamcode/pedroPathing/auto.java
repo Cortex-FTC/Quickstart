@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import com.pedropathing.util.Timer;
 
-@Disabled
+@Disabled// nao uso tbm
 @Autonomous(name = "Azul frente")
 public class auto extends OpMode {
 
