@@ -331,7 +331,7 @@ public class nao extends OpMode {
                     setPathState(PathState.ESPERA6);
                 }
                 break;
-
+//
 
             case ESPERA6:
                 ligactvl(1.4);
