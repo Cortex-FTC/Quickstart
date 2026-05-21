@@ -1,32 +1,32 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-@Disabled
-@Autonomous(name = "Azul frente1")//si
-public class nao extends OpMode {
 
-        double powerL = 0.35;
+@Autonomous(name = "vermelho frente1")//si
+public class vermelho extends OpMode {
 
-        double powerR = 0.35;
+    double powerL = 0.35;
 
-        double iL = 0;
-        double iR = 0;
+    double powerR = 0.35;
 
-        double lastErrL = 0;
-        double lastErrR = 0;
+    double iL = 0;
+    double iR = 0;
 
-        long lastTime;
+    double lastErrL = 0;
+    double lastErrR = 0;
+
+    long lastTime;
 
     double targetRPM = 1350;
 
@@ -102,6 +102,8 @@ public class nao extends OpMode {
         DRIVE_SHOOT4_GATE4,
         ESPERA9,
         DRIVE_GATE4_GATE5,
+        DRIVE_GATE1_GATE2,
+
         CTVL1,
         CTVL2,
         CTVL3,
@@ -111,20 +113,23 @@ public class nao extends OpMode {
 
     PathState pathState;
 
-    private final Pose startPose = new Pose(26.100, 129.400, Math.toRadians(142));
-    private final Pose shootpose1 = new Pose(44.956, 109.545, Math.toRadians(141));
-    private final Pose artefato1 = new Pose(46.047, 86.233, Math.toRadians(180));
-    private final Pose pega1 = new Pose(21.487, 86.284, Math.toRadians(180));
-    private final Pose shoot2 = new Pose(42.962, 93.429, Math.toRadians(128));
-    private final Pose artefato2 = new Pose(45.111, 56.831, Math.toRadians(180));
-    private final Pose pega2 = new Pose(14.438, 57.100, Math.toRadians(180));
+    private final Pose startPose = new Pose(117.000, 130.395, Math.toRadians(37));
+    private final Pose shootpose1 = new Pose(88.535, 101.093, Math.toRadians(28));
+    private final Pose artefato1 = new Pose(98.047, 80.628, Math.toRadians(0));
+    private final Pose pega1 = new Pose(124.221, 80.637, Math.toRadians(0));
+    private final Pose shoot2 = new Pose(98.674, 102.767, Math.toRadians(40));
+    private final Pose artefato2 = new Pose(95.442, 56.721, Math.toRadians(0));
+    private final Pose pega2 = new Pose(127.918, 56.767, Math.toRadians(0));
 
-    private final Pose shoot3 = new Pose(53.700, 81.991, Math.toRadians(129));
-    private final Pose artefato3 = new Pose(44.294, 37.782, Math.toRadians(180));
-    private final Pose pega3 = new Pose(21.176, 37.588, Math.toRadians(180));
-    private final Pose shoot4 = new Pose(54.265, 87.088, Math.toRadians(129));
-    private final Pose gate4 = new Pose(16.628, 70.302, Math.toRadians(0));
-    private final Pose gate5 = new Pose(31.337, 67.291, Math.toRadians(145));
+    private final Pose gate1 = new Pose(107.261, 62.257, Math.toRadians(90));
+    private final Pose gate2 = new Pose(126.529, 63.794, Math.toRadians(90));
+
+    private final Pose shoot3 = new Pose(103.605, 101.767, Math.toRadians(42));
+    private final Pose artefato3 = new Pose(98.953, 32.209, Math.toRadians(0));
+    private final Pose pega3 = new Pose(121.685, 32.084, Math.toRadians(0));
+    private final Pose shoot4 = new Pose(101.326, 101.605, Math.toRadians(37));
+    private final Pose gate4 = new Pose(126.930, 66.442, Math.toRadians(90));
+
 
     private PathChain startShoot1;
     private PathChain shoot1Artefato1;
@@ -133,8 +138,8 @@ public class nao extends OpMode {
     private PathChain shoot2Artefato2;
     private PathChain artefato2Pega2;
     private PathChain pega2shoot2;
-    private PathChain gateGate2;
-    private PathChain gate2Shoot3;
+
+    private PathChain gate1gate2;
     private PathChain shoot3Artefato3;
     private PathChain Artefato3pega3;
     private PathChain pega3shoot4;
@@ -173,6 +178,13 @@ public class nao extends OpMode {
                 .setLinearHeadingInterpolation(artefato2.getHeading(), pega2.getHeading())
                 .build();
 
+        gate1gate2= follower.pathBuilder() // 5
+                .addPath(new BezierCurve(
+                        pega2,gate1,gate2
+                ))
+                .setLinearHeadingInterpolation(pega2.getHeading(), gate1.getHeading(), gate2.getHeading())
+                .build();
+
         pega2shoot2 = follower.pathBuilder() //6
                 .addPath(new BezierLine(pega2, shoot3))
                 .setLinearHeadingInterpolation(pega2.getHeading(), shoot3.getHeading())
@@ -200,10 +212,7 @@ public class nao extends OpMode {
                 .setLinearHeadingInterpolation(shoot4.getHeading(), gate4.getHeading())
                 .build();
 
-        gate4gate5 = follower.pathBuilder() //12
-                .addPath(new BezierLine(gate4,gate5))
-                .setLinearHeadingInterpolation(gate4.getHeading(), gate5.getHeading())
-                .build();
+
     }
 
     public void pidShooter(){
@@ -315,6 +324,13 @@ public class nao extends OpMode {
                 ligactvl(3);
                 if (!follower.isBusy()) {
                     follower.followPath(artefato2Pega2, true);
+                    setPathState(PathState.DRIVE_GATE1_GATE2);
+                }
+                break;
+
+            case DRIVE_GATE1_GATE2:
+                if (!follower.isBusy()) {
+                    follower.followPath(gate1gate2, true);
                     setPathState(PathState.ESPERA4);
                 }
                 break;
@@ -391,19 +407,8 @@ public class nao extends OpMode {
                 }
                 break;
 
-            case ESPERA9:
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
-                    follower.followPath(gate4gate5, true);
-                    setPathState(PathState.DRIVE_GATE4_GATE5);
-                }
-                break;
 
-            case DRIVE_GATE4_GATE5:
-                if (!follower.isBusy()) {
-                    follower.followPath(gate4gate5, true);
-                    setPathState(PathState.PARA);
-                }
-                break;
+
 
             case PARA:
                 break;
@@ -454,14 +459,14 @@ public class nao extends OpMode {
         follower.update();
         pidShooter();
         statePathUpdate();
-            // Se não estiver em um estado de espera, desliga o shooter
-            if (pathState != PathState.ESPERA1 &&
-                    pathState != PathState.ESPERA3 &&
-                    pathState != PathState.ESPERA6 &&
-                    pathState != PathState.ESPERA8) {
+        // Se não estiver em um estado de espera, desliga o shooter
+        if (pathState != PathState.ESPERA1 &&
+                pathState != PathState.ESPERA3 &&
+                pathState != PathState.ESPERA6 &&
+                pathState != PathState.ESPERA8) {
 
-                ctvl2.setPower(0);
-            }
+            ctvl2.setPower(0);
+        }
 
         telemetry.addData("Target RPM",targetRPM);
         telemetry.addData("RPM L",shooterL.getVelocity());
