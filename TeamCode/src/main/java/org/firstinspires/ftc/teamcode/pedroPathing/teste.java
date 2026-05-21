@@ -121,13 +121,13 @@ public class teste extends OpMode {
     private final Pose artefato2 = new Pose(45.111, 56.831, Math.toRadians(180));
     private final Pose pega2 = new Pose(22.379, 57.143, Math.toRadians(180));
     private final Pose gate = new Pose(38.584, 72.933, Math.toRadians(0));
-    private final Pose gate2 = new Pose(16.779, 70.746, Math.toRadians(0));
+    private final Pose gate2 = new Pose(18.265, 63.794, Math.toRadians(0));
     private final Pose shoot3 = new Pose(53.700, 81.991, Math.toRadians(129));
     private final Pose artefato3 = new Pose(44.294, 37.782, Math.toRadians(180));
     private final Pose pega3 = new Pose(24.306, 38.136, Math.toRadians(180));
     private final Pose shoot4 = new Pose(54.837, 80.372, Math.toRadians(129));
     private final Pose gate4 = new Pose(16.628, 70.302, Math.toRadians(0));
-    private final Pose gate5 = new Pose(31.337, 67.291, Math.toRadians(145));
+    private final Pose gate5 = new Pose(13.047, 61.070, Math.toRadians(145));
 
     private PathChain startShoot1;
     private PathChain shoot1Artefato1;

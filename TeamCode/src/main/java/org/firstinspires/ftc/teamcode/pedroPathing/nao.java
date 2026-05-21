@@ -451,7 +451,6 @@ public class nao extends OpMode {
     public void loop() {
         follower.update();
         pidShooter();
-        ctvl.setPower(1.0);
         statePathUpdate();
         telemetry.addData("Target RPM",targetRPM);
         telemetry.addData("RPM L",shooterL.getVelocity());
