@@ -114,20 +114,20 @@ public class vermelho extends OpMode {
     PathState pathState;
 
     private final Pose startPose = new Pose(117.000, 130.395, Math.toRadians(37));
-    private final Pose shootpose1 = new Pose(88.535, 101.093, Math.toRadians(28));
+    private final Pose shootpose1 = new Pose(88.535, 101.093, Math.toRadians(36));
     private final Pose artefato1 = new Pose(98.047, 80.628, Math.toRadians(0));
     private final Pose pega1 = new Pose(124.221, 80.637, Math.toRadians(0));
-    private final Pose shoot2 = new Pose(98.674, 102.767, Math.toRadians(40));
+    private final Pose shoot2 = new Pose(98.674, 102.767, Math.toRadians(44));
     private final Pose artefato2 = new Pose(95.442, 56.721, Math.toRadians(0));
     private final Pose pega2 = new Pose(127.918, 56.767, Math.toRadians(0));
 
     private final Pose gate1 = new Pose(107.261, 62.257, Math.toRadians(90));
-    private final Pose gate2 = new Pose(126.529, 63.794, Math.toRadians(90));
+    private final Pose gate2 = new Pose(127.853, 72.265, Math.toRadians(90));
 
-    private final Pose shoot3 = new Pose(103.605, 101.767, Math.toRadians(42));
+    private final Pose shoot3 = new Pose(103.605, 101.767, Math.toRadians(46));
     private final Pose artefato3 = new Pose(98.953, 32.209, Math.toRadians(0));
-    private final Pose pega3 = new Pose(121.685, 32.084, Math.toRadians(0));
-    private final Pose shoot4 = new Pose(101.326, 101.605, Math.toRadians(37));
+    private final Pose pega3 = new Pose(133.596, 32.349, Math.toRadians(0));
+    private final Pose shoot4 = new Pose(101.326, 101.605, Math.toRadians(44));
     private final Pose gate4 = new Pose(126.930, 66.442, Math.toRadians(90));
 
 
@@ -337,11 +337,13 @@ public class vermelho extends OpMode {
 
             case ESPERA4:
                 ctvl2.setPower(0);
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.200) {
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 3) {
                     follower.followPath(pega2shoot2, true);
                     setPathState(PathState.DRIVE_PEGA2_Shoot2);
                 }
                 break;
+
+
 
 
             case DRIVE_PEGA2_Shoot2:
@@ -392,9 +394,9 @@ public class vermelho extends OpMode {
                 break;
 
             case ESPERA8:
-                ligactvl(1.400);
-                ligarCtvl2Tempo(1.400);
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
+                ligactvl(2);
+                ligarCtvl2Tempo(2);
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2) {
                     follower.followPath(shoot4gate4, true);
                     setPathState(PathState.DRIVE_SHOOT4_GATE4);
                 }
