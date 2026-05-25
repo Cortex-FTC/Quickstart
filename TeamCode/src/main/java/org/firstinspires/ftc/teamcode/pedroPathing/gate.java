@@ -1,22 +1,20 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import com.pedropathing.util.Timer;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Disabled//
-@Autonomous(name = "Azul frente")//si
-public class teste extends OpMode {
+@Autonomous(name = "Azul gate")//si
+public class gate extends OpMode {
 
     double powerL = 0.35;
 
@@ -30,7 +28,7 @@ public class teste extends OpMode {
 
     long lastTime;
 
-    double targetRPM = 1320;
+    double targetRPM = 1350;
 
     final double kP = 0.0006;
     final double kI = 0.0000003;
@@ -88,23 +86,20 @@ public class teste extends OpMode {
         DRIVE_ARTEFATO1_PEGA1,
         DRIVE_PEGA1_SHOOT2,
         ESPERA3,
-        DRIVE_SHOOT2_ARTEFATO2,
-        DRIVE_ARTEFATO2_PEGA2,
+        DRIVE_SHOOT2_PEGA2,
+        DRIVE_PEGA2_Shoot3,
         ESPERA4,
-        DRIVE_PEGA2_GATE,
-        DRIVE_GATE_GATE2,
-        ESPERA5,
-        DRIVE_GATE2_SHOOT3,
+        DRIVE_Shoot3_Pega3,
         ESPERA6,
-        DRIVE_SHOOT3_ARTEFATO3,
-        DRIVE_ARTEFATO3_PEGA3,
+        DRIVE_Pega3_Shoot4,
+        DRIVE_Shoot4_Artefato1,
         ESPERA7,
-        DRIVE_PEGA3_SHOOT4,
+        DRIVE_Artefato1_pega4,
         ESPERA8,
-        DRIVE_SHOOT4_GATE4,
+        DRIVE_pega4_Shoot5,
+        ESPERA5,
         ESPERA9,
-        DRIVE_GATE4_GATE5,
-        CTVL1,
+        ESPERA10,
         CTVL2,
         CTVL3,
         CTVL4,
@@ -113,36 +108,32 @@ public class teste extends OpMode {
 
     PathState pathState;
 
-    private final Pose startPose = new Pose(26.100, 129.400, Math.toRadians(142));
-    private final Pose shootpose1 = new Pose(44.956, 109.545, Math.toRadians(146));
-    private final Pose artefato1 = new Pose(46.047, 86.233, Math.toRadians(180));
-    private final Pose pega1 = new Pose(21.487, 86.284, Math.toRadians(180));
-    private final Pose shoot2 = new Pose(42.962, 93.429, Math.toRadians(128));
-    private final Pose artefato2 = new Pose(45.111, 56.831, Math.toRadians(180));
-    private final Pose pega2 = new Pose(22.379, 57.143, Math.toRadians(180));
-    private final Pose gate = new Pose(38.584, 72.933, Math.toRadians(0));
-    private final Pose gate2 = new Pose(18.265, 63.794, Math.toRadians(0));
-    private final Pose shoot3 = new Pose(53.700, 81.991, Math.toRadians(129));
-    private final Pose artefato3 = new Pose(44.294, 37.782, Math.toRadians(180));
-    private final Pose pega3 = new Pose(24.306, 38.136, Math.toRadians(180));
-    private final Pose shoot4 = new Pose(54.837, 80.372, Math.toRadians(129));
-    private final Pose gate4 = new Pose(16.628, 70.302, Math.toRadians(0));
-    private final Pose gate5 = new Pose(13.047, 61.070, Math.toRadians(145));
+    private final Pose startPose = new Pose(27.265, 131.294, Math.toRadians(143));
+    private final Pose shootpose1 = new Pose(49.500, 103.500, Math.toRadians(130));
+    private final Pose artefato2 = new Pose(46.706, 56.353, Math.toRadians(180));
+    private final Pose pega1 = new Pose(13.471, 56.412, Math.toRadians(180));
+    private final Pose shoot2 =     new Pose(57.971, 78.088, Math.toRadians(135));
+    private final Pose pega2 = new Pose(14.265, 62.235, Math.toRadians(147));
+    private final Pose shoot3 = new Pose(56.971, 86.029, Math.toRadians(135));
+    private final Pose pega3 = new Pose(10.853, 59.294, Math.toRadians(143));
+    private final Pose shoot4 = new Pose(56.824, 85.647, Math.toRadians(133));
+    private final Pose artefato1 = new Pose(44.471, 85.765, Math.toRadians(180));
+    private final Pose pega4 = new Pose(20.647, 85.941, Math.toRadians(180));
+    private final Pose shoot5 = new Pose(43.412, 93.441, Math.toRadians(134));
+
 
     private PathChain startShoot1;
     private PathChain shoot1Artefato1;
-    private PathChain artefato1Pega1;
+    private PathChain artefato2Pega1;
     private PathChain pega1Shoot2;
-    private PathChain shoot2Artefato2;
-    private PathChain artefato2Pega2;
-    private PathChain pega2Gate;
-    private PathChain gateGate2;
-    private PathChain gate2Shoot3;
-    private PathChain shoot3Artefato3;
-    private PathChain Artefato3pega3;
+    private PathChain shoot2pega2;
+    private PathChain pega2shoot3;
+    private PathChain shoot3pega3;
     private PathChain pega3shoot4;
-    private PathChain shoot4gate4;
-    private PathChain gate4gate5;
+    private PathChain shoot4artefato1;
+    private PathChain artefato1pega4;
+    private PathChain pega4shoot5;
+
 
     public void buildPaths() {
 
@@ -152,13 +143,13 @@ public class teste extends OpMode {
                 .build();
 
         shoot1Artefato1 = follower.pathBuilder() //2
-                .addPath(new BezierLine(shootpose1, artefato1))
-                .setLinearHeadingInterpolation(shootpose1.getHeading(), artefato1.getHeading())
+                .addPath(new BezierLine(shootpose1, artefato2))
+                .setLinearHeadingInterpolation(shootpose1.getHeading(), artefato2.getHeading())
                 .build();
 
-        artefato1Pega1 = follower.pathBuilder() //3
-                .addPath(new BezierLine(artefato1, pega1))
-                .setLinearHeadingInterpolation(artefato1.getHeading(), pega1.getHeading())
+        artefato2Pega1 = follower.pathBuilder() //3
+                .addPath(new BezierLine(artefato2, pega1))
+                .setLinearHeadingInterpolation(artefato2.getHeading(), pega1.getHeading())
                 .build();
 
         pega1Shoot2 = follower.pathBuilder() //4
@@ -166,57 +157,44 @@ public class teste extends OpMode {
                 .setLinearHeadingInterpolation(pega1.getHeading(), shoot2.getHeading())
                 .build();
 
-        shoot2Artefato2 = follower.pathBuilder() //4
-                .addPath(new BezierLine(shoot2, artefato2))
-                .setLinearHeadingInterpolation(shoot2.getHeading(), artefato2.getHeading())
+        shoot2pega2 = follower.pathBuilder() //4
+                .addPath(new BezierLine(shoot2, pega2))
+                .setLinearHeadingInterpolation(shoot2.getHeading(), pega2.getHeading())
                 .build();
 
-        artefato2Pega2 = follower.pathBuilder() //5
-                .addPath(new BezierLine(artefato2, pega2))
+        pega2shoot3 = follower.pathBuilder() //5
+                .addPath(new BezierLine(pega2, shoot3))
                 .setLinearHeadingInterpolation(artefato2.getHeading(), pega2.getHeading())
                 .build();
 
-        pega2Gate = follower.pathBuilder() //6
-                .addPath(new BezierLine(pega2, gate))
-                .setLinearHeadingInterpolation(pega2.getHeading(), gate.getHeading())
-                .build();
-
-        gateGate2 = follower.pathBuilder() // path7
-                .addPath(new BezierCurve(
-                        pega2,gate,gate2
-                ))
-                .setLinearHeadingInterpolation(pega2.getHeading(), gate.getHeading(), gate2.getHeading())
-                .build();
-
-        gate2Shoot3 = follower.pathBuilder() //8
-                .addPath(new BezierLine(gate2, shoot3))
-                .setLinearHeadingInterpolation(gate2.getHeading(), shoot3.getHeading())
-                .build();
-        shoot3Artefato3 = follower.pathBuilder() //9
-                .addPath(new BezierLine(shoot3, artefato3))
-                .setLinearHeadingInterpolation(shoot3.getHeading(), artefato3.getHeading())
-                .build();
-
-        Artefato3pega3 = follower.pathBuilder() //10
-                .addPath(new BezierLine(artefato3,pega3))
-                .setLinearHeadingInterpolation(artefato3.getHeading(), pega3.getHeading())
+        shoot3pega3 = follower.pathBuilder() //6
+                .addPath(new BezierLine(shoot3, pega3))
+                .setLinearHeadingInterpolation(shoot3.getHeading(), pega3.getHeading())
                 .build();
 
 
-        pega3shoot4 = follower.pathBuilder() //11
-                .addPath(new BezierLine(pega3,shoot4))
+        pega3shoot4 = follower.pathBuilder() //9
+                .addPath(new BezierLine(pega3, shoot4))
                 .setLinearHeadingInterpolation(pega3.getHeading(), shoot4.getHeading())
                 .build();
 
-        shoot4gate4 = follower.pathBuilder() //12
-                .addPath(new BezierLine(shoot4,gate4))
-                .setLinearHeadingInterpolation(shoot4.getHeading(), gate4.getHeading())
+        shoot4artefato1 = follower.pathBuilder() //10
+                .addPath(new BezierLine(shoot4,artefato1))
+                .setLinearHeadingInterpolation(shoot4.getHeading(), artefato1.getHeading())
                 .build();
 
-        gate4gate5 = follower.pathBuilder() //12
-                .addPath(new BezierLine(gate4,gate5))
-                .setLinearHeadingInterpolation(gate4.getHeading(), gate5.getHeading())
+
+        artefato1pega4 = follower.pathBuilder() //11
+                .addPath(new BezierLine(artefato1,pega4))
+                .setLinearHeadingInterpolation(artefato1.getHeading(), pega4.getHeading())
                 .build();
+
+        pega4shoot5 = follower.pathBuilder() //12
+                .addPath(new BezierLine(pega4,shoot5))
+                .setLinearHeadingInterpolation(pega4.getHeading(), shoot5.getHeading())
+                .build();
+
+
     }
 
     public void pidShooter(){
@@ -266,19 +244,14 @@ public class teste extends OpMode {
 
             case ESPERA1:
                 desligarCtvl2Tempo(2);
-                ligactvl(5);
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                ligactvl(4);
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 4) {
                     follower.followPath(shoot1Artefato1, true);
                     setPathState(PathState.DRIVE_SHOOT1_ARTEFATO1);
                 }
                 break;
 
-            case ATIVASHOOT:
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
-                    follower.followPath(shoot1Artefato1, true);
-                    setPathState(PathState.DRIVE_SHOOT1_ARTEFATO1);
-                }
-                break;
+
 
             case DRIVE_SHOOT1_ARTEFATO1:
                 ctvl2.setPower(0);
@@ -290,10 +263,8 @@ public class teste extends OpMode {
 
             case DRIVE_ARTEFATO1_PEGA1:
                 ligactvl(3);
-
-
                 if (!follower.isBusy()) {
-                    follower.followPath(artefato1Pega1, true);
+                    follower.followPath(artefato2Pega1, true);
                     setPathState(PathState.ESPERA2);
                 }
                 break;
@@ -314,100 +285,107 @@ public class teste extends OpMode {
 
             case ESPERA3:
                 ligactvl(1.400);
-                ligarCtvl2Tempo(1.400);
+                ligarCtvl2Tempo(1.4);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
-                    follower.followPath(shoot2Artefato2, true);
-                    setPathState(PathState.DRIVE_SHOOT2_ARTEFATO2);
+                    ctvl2.setPower(0);
+                    follower.followPath(shoot2pega2, true);
+                    setPathState(PathState.DRIVE_SHOOT2_PEGA2);
                 }
                 break;
 
-            case DRIVE_SHOOT2_ARTEFATO2:
-                if (!follower.isBusy()) {
-                    follower.followPath(shoot2Artefato2, true);
-                    setPathState(PathState.DRIVE_ARTEFATO2_PEGA2);
-                }
-                break;
-
-            case DRIVE_ARTEFATO2_PEGA2:
+            case DRIVE_SHOOT2_PEGA2:
+                ctvl2.setPower(0);
                 ligactvl(3);
                 if (!follower.isBusy()) {
-                    follower.followPath(artefato2Pega2, true);
+                    follower.followPath(shoot2pega2, true);
+                    setPathState(PathState.ESPERA9);
+                }
+                break;
+
+            case ESPERA9:
+                ligactvl(3);
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 3) {
+                    follower.followPath(pega2shoot3, true);
+                    setPathState(PathState.DRIVE_Shoot3_Pega3);
+                }
+                break;
+
+            case DRIVE_PEGA2_Shoot3:
+                if (!follower.isBusy()) {
+                    follower.followPath(pega2shoot3, true);
                     setPathState(PathState.ESPERA4);
                 }
                 break;
 
             case ESPERA4:
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.200) {
-                    follower.followPath(pega2Gate, true);
-                    setPathState(PathState.DRIVE_PEGA2_GATE);
+                ligactvl(1.400);
+                ligarCtvl2Tempo(1.4);
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
+                    follower.followPath(shoot3pega3, true);
+                    setPathState(PathState.DRIVE_Shoot3_Pega3);
                 }
                 break;
 
-            case DRIVE_PEGA2_GATE:
+
+            case DRIVE_Shoot3_Pega3:
+                ligactvl(3);
                 if (!follower.isBusy()) {
-                    follower.followPath(pega2Gate, true);
-                    setPathState(PathState.DRIVE_GATE_GATE2);
-                }
-                break;
-
-            case DRIVE_GATE_GATE2:
-                if (!follower.isBusy()) {
-                    follower.followPath(gateGate2, true);
-                    setPathState(PathState.ESPERA5);
-                }
-                break;
-
-            case ESPERA5:
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1) {
-                    follower.followPath(gate2Shoot3, true);
-                    setPathState(PathState.DRIVE_GATE2_SHOOT3);
-                }
-                break;
-
-            case DRIVE_GATE2_SHOOT3:
-                if (!follower.isBusy()) {
-                    follower.followPath(gate2Shoot3, true);
+                    follower.followPath(shoot3pega3, true);
                     setPathState(PathState.ESPERA6);
                 }
                 break;
 
             case ESPERA6:
-                ligactvl(1.400);
-                ligarCtvl2Tempo(1.400);
-
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
-                    follower.followPath(shoot3Artefato3, true);
-                    setPathState(PathState.DRIVE_SHOOT3_ARTEFATO3);
-                }
-                break;
-
-
-            case DRIVE_SHOOT3_ARTEFATO3:
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.200) {
-                    follower.followPath(shoot3Artefato3, true);
-                    setPathState(PathState.DRIVE_ARTEFATO3_PEGA3);
-                }
-                break;
-
-            case DRIVE_ARTEFATO3_PEGA3:
                 ligactvl(3);
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 3) {
+                    follower.followPath(pega3shoot4, true);
+                    setPathState(PathState.DRIVE_Pega3_Shoot4);
+                }
+                break;
 
+
+            case DRIVE_Pega3_Shoot4:
                 if (!follower.isBusy()) {
-                    follower.followPath(Artefato3pega3, true);
+                    follower.followPath(pega3shoot4, true);
+                    setPathState(PathState.ESPERA5);
+                }
+                break;
+
+            case ESPERA5:
+                ligactvl(1.400);
+                ligarCtvl2Tempo(1.4);
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
+                    follower.followPath(shoot4artefato1, true);
+                    setPathState(PathState.DRIVE_Shoot4_Artefato1);
+                }
+                break;
+
+            case DRIVE_Shoot4_Artefato1:
+                if (!follower.isBusy()) {
+                    follower.followPath(shoot4artefato1, true);
                     setPathState(PathState.ESPERA7);
                 }
                 break;
 
             case ESPERA7:
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.200) {
-                    follower.followPath(pega3shoot4, true);
-                    setPathState(PathState.DRIVE_PEGA3_SHOOT4);
+                    follower.followPath(artefato1pega4, true);
+                    setPathState(PathState.DRIVE_Artefato1_pega4);
                 }
                 break;
 
-            case DRIVE_PEGA3_SHOOT4:
+            case DRIVE_Artefato1_pega4:
+                ligactvl(3);
                 if (!follower.isBusy()) {
-                    follower.followPath(pega3shoot4, true);
+                    follower.followPath(artefato1pega4, true);
+                    setPathState(PathState.DRIVE_pega4_Shoot5);
+                }
+                break;
+
+
+            case DRIVE_pega4_Shoot5:
+                if (!follower.isBusy()) {
+                    follower.followPath(pega4shoot5, true);
                     setPathState(PathState.ESPERA8);
                 }
                 break;
@@ -416,28 +394,7 @@ public class teste extends OpMode {
                 ligactvl(1.400);
                 ligarCtvl2Tempo(1.400);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
-                    follower.followPath(shoot4gate4, true);
-                    setPathState(PathState.DRIVE_SHOOT4_GATE4);
-                }
-                break;
-
-            case DRIVE_SHOOT4_GATE4:
-                if (!follower.isBusy()) {
-                    follower.followPath(shoot4gate4, true);
-                    setPathState(PathState.ESPERA9);
-                }
-                break;
-
-            case ESPERA9:
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
-                    follower.followPath(gate4gate5, true);
-                    setPathState(PathState.DRIVE_GATE4_GATE5);
-                }
-                break;
-
-            case DRIVE_GATE4_GATE5:
-                if (!follower.isBusy()) {
-                    follower.followPath(gate4gate5, true);
+                    follower.followPath(pega4shoot5, true);
                     setPathState(PathState.PARA);
                 }
                 break;
@@ -490,8 +447,16 @@ public class teste extends OpMode {
     public void loop() {
         follower.update();
         pidShooter();
-        ctvl.setPower(1.0);
         statePathUpdate();
+        // Se não estiver em um estado de espera, desliga o shooter
+        if (pathState != PathState.ESPERA1 &&
+                pathState != PathState.ESPERA3 &&
+                pathState != PathState.ESPERA6 &&
+                pathState != PathState.ESPERA8) {
+
+            ctvl2.setPower(0);
+        }
+
         telemetry.addData("Target RPM",targetRPM);
         telemetry.addData("RPM L",shooterL.getVelocity());
         telemetry.addData("RPM R",shooterR.getVelocity());

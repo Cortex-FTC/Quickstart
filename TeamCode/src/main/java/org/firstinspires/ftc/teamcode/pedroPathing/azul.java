@@ -14,19 +14,19 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name = "Azul frente1")//si
-public class nao extends OpMode {
+public class azul extends OpMode {
 
-        double powerL = 0.35;
+    double powerL = 0.35;
 
-        double powerR = 0.35;
+    double powerR = 0.35;
 
-        double iL = 0;
-        double iR = 0;
+    double iL = 0;
+    double iR = 0;
 
-        double lastErrL = 0;
-        double lastErrR = 0;
+    double lastErrL = 0;
+    double lastErrR = 0;
 
-        long lastTime;
+    long lastTime;
 
     double targetRPM = 1350;
 
@@ -454,14 +454,14 @@ public class nao extends OpMode {
         follower.update();
         pidShooter();
         statePathUpdate();
-            // Se não estiver em um estado de espera, desliga o shooter
-            if (pathState != PathState.ESPERA1 &&
-                    pathState != PathState.ESPERA3 &&
-                    pathState != PathState.ESPERA6 &&
-                    pathState != PathState.ESPERA8) {
+        // Se não estiver em um estado de espera, desliga o shooter
+        if (pathState != PathState.ESPERA1 &&
+                pathState != PathState.ESPERA3 &&
+                pathState != PathState.ESPERA6 &&
+                pathState != PathState.ESPERA8) {
 
-                ctvl2.setPower(0);
-            }
+            ctvl2.setPower(0);
+        }
 
         telemetry.addData("Target RPM",targetRPM);
         telemetry.addData("RPM L",shooterL.getVelocity());
