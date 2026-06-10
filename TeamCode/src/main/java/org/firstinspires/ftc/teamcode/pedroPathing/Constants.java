@@ -49,8 +49,8 @@ public class Constants {
             .IMU_HardwareMapName("imu")
             .IMU_Orientation(
                     new RevHubOrientationOnRobot(
-                            RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                            RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                            RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
+                            RevHubOrientationOnRobot.UsbFacingDirection.LEFT
                     )
             );
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 4, 1);
