@@ -97,6 +97,7 @@ public class gate extends OpMode {
         ESPERA8,
         DRIVE_pega4_Shoot5,
         ESPERA5,
+        ESPERA9,
         Shoot3_Pega3,
         PARA
     }
@@ -173,7 +174,10 @@ public class gate extends OpMode {
                 .setLinearHeadingInterpolation(pega3.getHeading(), shoot4.getHeading())
                 .build();
 
-
+        shoot4artefato1 = follower.pathBuilder() //10
+                .addPath(new BezierLine(shoot4,artefato1))
+                .setLinearHeadingInterpolation(shoot4.getHeading(), artefato1.getHeading())
+                .build();
 
         artefato1pega4 = follower.pathBuilder() //11
                 .addPath(new BezierLine(artefato1,pega4))
@@ -312,15 +316,22 @@ public class gate extends OpMode {
                 ligactvl(1.4);
                 ligarCtvl2Tempo(1.4);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.4) {
-                    follower.followPath(pega3shoot4, true);
+                    follower.followPath(shoot3pega3, true);
                     setPathState(PathState.Shoot3_Pega3);
                 }
                 break;
 
             case Shoot3_Pega3:
-                ligactvl(3);
                 if (!follower.isBusy()) {
                     follower.followPath(shoot3pega3, true);
+                    setPathState(PathState.DRIVE_Pega3_Shoot4);
+                }
+                break;
+
+            case ESPERA9:
+                ligactvl(3);
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 3) {
+                    follower.followPath(pega3shoot4, true);
                     setPathState(PathState.DRIVE_Pega3_Shoot4);
                 }
                 break;
