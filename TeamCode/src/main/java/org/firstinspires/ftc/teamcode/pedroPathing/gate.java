@@ -78,17 +78,15 @@ public class gate extends OpMode {
 
     public enum PathState {
         DRIVE_START_SHOOT1,
-        ATIVASHOOT,
         ESPERA1,
         DRIVE_SHOOT1_ARTEFATO1,
         ESPERA2,
         DRIVE_ARTEFATO1_PEGA1,
         DRIVE_PEGA1_SHOOT2,
         ESPERA3,
-        DRIVE_SHOOT2_PEGA2,
+        DRIVE_Shoot2_Pega2,
         DRIVE_PEGA2_Shoot3,
         ESPERA4,
-        DRIVE_Shoot2_Pega2,
         ESPERA6,
         DRIVE_Pega3_Shoot4,
         DRIVE_Shoot4_Artefato1,
@@ -108,12 +106,11 @@ public class gate extends OpMode {
     private final Pose startPose = new Pose(27.265, 131.294, Math.toRadians(143));
     private final Pose shootpose1 = new Pose(49.500, 103.500, Math.toRadians(142));
     private final Pose artefato2 = new Pose(46.706, 56.353, Math.toRadians(180));
-    private final Pose pega1 = new Pose(31.471, 56.676, Math.toRadians(180));
+    private final Pose pega1 = new Pose(24.224, 56.617, Math.toRadians(180));
     private final Pose shoot2 = new Pose(57.971, 78.088, Math.toRadians(135));
     private final Pose pega3 = new Pose(21.110, 59.704, Math.toRadians(165));
     private final Pose shoot3 = new Pose(56.971, 86.029, Math.toRadians(135));
-    private final Pose pega2 = new Pose(16.207, 53.333 , Math.toRadians(160));
-    private final Pose pega25 = new Pose(16.823, 63.131 , Math.toRadians(160));
+    private final Pose pega2 = new Pose(17.642, 60.308 , Math.toRadians(165));
     private final Pose shoot4 = new Pose(57.029, 86.673, Math.toRadians(164));
     private final Pose artefato1 = new Pose(44.471, 85.765, Math.toRadians(180));
     private final Pose pega4 = new Pose(20.647, 85.941, Math.toRadians(180));
@@ -159,11 +156,6 @@ public class gate extends OpMode {
         shoot2pega2 = follower.pathBuilder() //5
                 .addPath(new BezierLine(shoot2, pega2))
                 .setLinearHeadingInterpolation(shoot2.getHeading(), pega2.getHeading())
-                .build();
-
-        pega2pega25 = follower.pathBuilder() //6
-                .addPath(new BezierLine(pega2, pega25))
-                .setLinearHeadingInterpolation(pega2.getHeading(), pega25.getHeading())
                 .build();
 
         pega2shoot3 = follower.pathBuilder() //7
@@ -301,7 +293,7 @@ public class gate extends OpMode {
 
 
             case DRIVE_Shoot2_Pega2:
-                ligactvl(3);
+
                 if (!follower.isBusy()) {
                     follower.followPath(shoot2pega2, true);
                     setPathState(PathState.ESPERA6);
@@ -337,13 +329,13 @@ public class gate extends OpMode {
             case Shoot3_Pega3:
                 if (!follower.isBusy()) {
                     follower.followPath(shoot3pega3, true);
-                    setPathState(PathState.DRIVE_Pega3_Shoot4);
+                    setPathState(PathState.ESPERA9);
                 }
                 break;
 
             case ESPERA9:
                 ligactvl(3);
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 3) {
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
                     follower.followPath(pega3shoot4, true);
                     setPathState(PathState.DRIVE_Pega3_Shoot4);
                 }

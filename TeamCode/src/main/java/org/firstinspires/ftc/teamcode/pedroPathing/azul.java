@@ -115,12 +115,11 @@ public class azul extends OpMode {
     private final Pose startPose = new Pose(26.100, 129.400, Math.toRadians(142));
     private final Pose shootpose1 = new Pose(44.956, 109.545, Math.toRadians(141));
     private final Pose artefato1 = new Pose(46.047, 86.233, Math.toRadians(180));
-    private final Pose pega1 = new Pose(21.487, 86.284, Math.toRadians(180));
+    private final Pose pega1 = new Pose(21.762, 56.617, Math.toRadians(180));
     private final Pose shoot2 = new Pose(42.962, 93.429, Math.toRadians(128));
     private final Pose artefato2 = new Pose(45.111, 56.831, Math.toRadians(180));
-    private final Pose pega2 = new Pose(14.438, 57.100, Math.toRadians(180));
-
-    private final Pose shoot3 = new Pose(53.700, 81.991, Math.toRadians(129));
+    private final Pose pega2 = new Pose(24.224, 56.617, Math.toRadians(180));
+    private final Pose shoot3 = new Pose(18.054, 63.541, Math.toRadians(129));
     private final Pose artefato3 = new Pose(44.294, 37.782, Math.toRadians(180));
     private final Pose pega3 = new Pose(21.176, 37.588, Math.toRadians(180));
     private final Pose shoot4 = new Pose(54.265, 87.088, Math.toRadians(129));
