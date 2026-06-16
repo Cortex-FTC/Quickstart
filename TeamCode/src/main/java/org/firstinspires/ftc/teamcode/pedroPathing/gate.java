@@ -111,9 +111,9 @@ public class gate extends OpMode {
     private final Pose pega3 = new Pose(21.110, 59.704, Math.toRadians(165));
     private final Pose shoot3 = new Pose(56.971, 86.029, Math.toRadians(135));
     private final Pose pega2 = new Pose(21.110, 59.704 , Math.toRadians(165));
-    private final Pose shoot4 = new Pose(57.029, 86.673, Math.toRadians(164));
-    private final Pose artefato1 = new Pose(44.471, 85.765, Math.toRadians(180));
-    private final Pose pega4 = new Pose(20.647, 85.941, Math.toRadians(180));
+    private final Pose shoot4 = new Pose(57.029, 86.673, Math.toRadians(132));
+    private final Pose artefato1 = new Pose(39.386, 86.564, Math.toRadians(180));
+    private final Pose pega4 = new Pose(29.568, 86.614, Math.toRadians(180));
     private final Pose shoot5 = new Pose(43.412, 93.441, Math.toRadians(134));
 
 
@@ -317,7 +317,7 @@ public class gate extends OpMode {
 
             case ESPERA4:
                 ligactvl(1.400);
-                desligarCtvl2Tempo(4);
+                ligarCtvl2Tempo(1.400);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.4) {
                     follower.followPath(shoot3pega3, true);
                     setPathState(PathState.Shoot3_Pega3);
@@ -379,9 +379,6 @@ public class gate extends OpMode {
 
 
             case DRIVE_pega4_Shoot5:
-                ctvl2.setPower(0);
-                shooterL.setPower(0);
-                shooterR.setPower(0);
                 if (!follower.isBusy()) {
                     follower.followPath(pega4shoot5, true);
                     setPathState(PathState.ESPERA8);
