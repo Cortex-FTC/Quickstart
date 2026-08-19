@@ -104,9 +104,18 @@ public class tele extends LinearOpMode {
             double turn   =  gamepad1.right_stick_x;
             double strafe = 0;
 
+            if (gamepad1.dpad_up) {
+                drive = 0.3;
+                turn = 0;
+                strafe = 0;
+            }
+
             if (gamepad1.dpad_down) {
                 drive = -0.3;
+                turn = 0;
+                strafe = 0;
             }
+
 
             // ===== STRAFE =====
             if (gamepad1.left_bumper)       strafe = -1.0;

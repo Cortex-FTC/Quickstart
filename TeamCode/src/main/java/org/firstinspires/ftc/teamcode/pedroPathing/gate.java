@@ -104,15 +104,15 @@ public class gate extends OpMode {
     PathState pathState;
 
     private final Pose startPose = new Pose(27.265, 131.294, Math.toRadians(143));
-    private final Pose shootpose1 = new Pose(49.500, 103.500, Math.toRadians(142));
-    private final Pose artefato2 = new Pose(46.706, 56.353, Math.toRadians(180));
-    private final Pose pega1 = new Pose(28.737, 56.822, Math.toRadians(180));
+    private final Pose shootpose1 = new Pose(49.500, 103.500, Math.toRadians(146));
+    private final Pose artefato2 = new Pose(53.270, 57.994, Math.toRadians(180));
+    private final Pose pega1 = new Pose(27.711, 58.053, Math.toRadians(180));
     private final Pose shoot2 = new Pose(60.637, 80.755, Math.toRadians(135));
-    private final Pose pega3 = new Pose(21.110, 59.704, Math.toRadians(165));
+    private final Pose pega3 = new Pose(16.597, 59.294, Math.toRadians(153));
     private final Pose shoot3 = new Pose(56.971, 86.029, Math.toRadians(135));
-    private final Pose pega2 = new Pose(21.110, 59.704 , Math.toRadians(165));
+    private final Pose pega2 = new Pose(16.597, 59.294 , Math.toRadians(153));
     private final Pose shoot4 = new Pose(57.029, 86.673, Math.toRadians(132));
-    private final Pose artefato1 = new Pose(39.386, 86.564, Math.toRadians(180));
+    private final Pose artefato1 = new Pose(46.565, 86.359, Math.toRadians(180));
     private final Pose pega4 = new Pose(29.568, 86.614, Math.toRadians(180));
     private final Pose shoot5 = new Pose(43.412, 93.441, Math.toRadians(134));
 
@@ -274,6 +274,7 @@ public class gate extends OpMode {
                 break;
 
             case ESPERA3:
+                targetRPM = 1500;
                 ligactvl(1.400);
                 ligarCtvl2Tempo(1.4);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
@@ -299,8 +300,9 @@ public class gate extends OpMode {
                 break;
 
             case ESPERA6:
-                ligactvl(3);
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 3) {
+                targetRPM = 1500;
+                ligactvl(2 );
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2) {
                     follower.followPath(pega2shoot3, true);
                     setPathState(PathState.DRIVE_PEGA2_Shoot3);
                 }
@@ -316,6 +318,7 @@ public class gate extends OpMode {
                 break;
 
             case ESPERA4:
+                targetRPM = 1500;
                 ligactvl(1.400);
                 ligarCtvl2Tempo(1.400);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.4) {
@@ -332,8 +335,8 @@ public class gate extends OpMode {
                 break;
 
             case ESPERA9:
-                ligactvl(3);
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 3) {
+                ligactvl(2);
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2) {
                     follower.followPath(pega3shoot4, true);
                     setPathState(PathState.DRIVE_Pega3_Shoot4);
                 }
@@ -347,6 +350,7 @@ public class gate extends OpMode {
                 break;
 
             case ESPERA5:
+                targetRPM = 1450;
                 ligactvl(1.400);
                 ligarCtvl2Tempo(1.4);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.400) {
@@ -363,6 +367,7 @@ public class gate extends OpMode {
                 break;
 
             case ESPERA7:
+                ctvl2.setPower(0);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.200) {
                     follower.followPath(artefato1pega4, true);
                     setPathState(PathState.DRIVE_Artefato1_pega4);
@@ -387,6 +392,7 @@ public class gate extends OpMode {
                 
 
             case ESPERA8:
+                targetRPM = 1500;
                 ligactvl(1.400);
                 ligarCtvl2Tempo(1.400);
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2) {
@@ -447,6 +453,8 @@ public class gate extends OpMode {
         // Se não estiver em um estado de espera, desliga o shooter
         if (pathState != PathState.ESPERA1 &&
                 pathState != PathState.ESPERA3 &&
+                pathState != PathState.ESPERA4 &&
+                pathState != PathState.ESPERA5 &&
                 pathState != PathState.ESPERA6 &&
                 pathState != PathState.ESPERA8) {
 
@@ -455,6 +463,8 @@ public class gate extends OpMode {
 
         if (pathState != PathState.ESPERA1 &&
                 pathState != PathState.ESPERA3 &&
+                pathState != PathState.ESPERA4 &&
+                pathState != PathState.ESPERA5 &&
                 pathState != PathState.ESPERA6 &&
                 pathState != PathState.ESPERA8) {
 
