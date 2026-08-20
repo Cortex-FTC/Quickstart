@@ -26,9 +26,9 @@ public class opencv extends LinearOpMode {
     public static final double FocalLenght = 728;// focal leght of the camera in pixels
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
 
-        initOpenCV();
+
 
     }
 
